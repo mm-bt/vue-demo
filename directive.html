@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue入门之自定义指令</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<div v-test="color">
+		{{num}}
+	</div>
+</div>
+<button onclick="unbindApp()">解绑</button>
+
+<script type="text/javascript">
+// 解绑
+function unbindApp() {
+	app.$destroy();
+}
+
+// 自定义指令
+Vue.directive("test",{
+	//1-被绑定
+	bind:function (el, binding, vnode) {
+		console.log("1-bind 被绑定");
+		console.log("el:",el);
+		console.log("binding:",binding);
+		console.log("vnode:",vnode);
+		el.style.color = binding.value;
+	},
+	//2-被插入
+	inserted:function (el, binding, vnode) {
+		console.log("2-inserted 被插入");
+	},
+	//3-更新
+	update:function (el, binding, vnode) {
+		console.log("3-update 更新");
+	},
+	//4-更新完成
+	componentUpdated:function (el, binding, vnode) {
+		console.log("4-componentUpdated 更新完成");
+	},
+	//5-解绑
+	unbind:function (el, binding, vnode) {
+		console.log("5-unbind 解绑");
+	}
+});
+
+var app = new Vue({
+	el:'#app',
+	data:{
+		num: 123,
+		color:'red'
+	}
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue入门之组件</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<!-- 全局组件 -->
+	<div><button-counter></button-counter></div>
+	<!-- 局部组件 -->
+	<div><button-inner></button-inner></div>
+	<!-- 常规属性传值 -->
+	<div><button-props here="hello" from-here="world"></button-props></div>
+	<!-- v-bind传值 -->
+	<div><button-props v-bind:here="message" :from-here="message"></button-props></div>
+	<!-- 父子组件调用 -->
+	<div><parent></parent></div>
+
+</div>
+
+<script type="text/javascript">
+	// 定义全局组件
+	Vue.component('button-counter', {
+		data: function () {
+			return {
+				count: 0
+			}
+		},
+		template: '<button v-on:click="count++">全局组件显示： {{ count }}</button>'
+	});
+
+	// 子组件
+	var city = {
+		template:`<div>Sichuan of China</div>`
+	}
+	// 父组件
+	var parent = {
+		template:
+			`<div>
+				<p> Panda from China!</p>
+				<city></city>
+			</div>`,
+		components:{
+			"city": city
+		}
+	}
+
+	// 实例化
+	new Vue({
+		el: '#app',
+		data: {
+			message: 'hello'
+		},
+		// 定义局部组件
+		components:{
+			"button-inner":{
+				data: function() {
+					return {
+						inner: 0
+					}
+				},
+				template: '<button v-on:click="inner++">局部组件显示： {{ inner }}</button>'
+			},
+			// 取值
+			"button-props":{
+				template:`<div style="color:red;">参数1： {{ here }}:---参数2： {{fromHere}}</div>`,
+				props:['here', 'fromHere']
+			},
+			// 组件注册
+			"parent": parent
+		}
+	});
+</script>
+</body>
+</html>

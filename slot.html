@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue入门之slot</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<children1>
+		<span>12345</span>
+	</children1>
+
+	<children2>
+		<span slot="first" @click="tobeknow">12345</span>
+		<span slot="second">56789</span>
+	</children2>
+
+	<!-- 将数据传递给组件 -->
+	<tb-list :data="data">
+		<!-- 获取slot上面的值 -->
+		<template slot-scope="scope">
+			<p>索引：{{JSON.stringify(scope)}}</p>
+			<p>索引：{{scope.$index}}</p>
+			<p>姓名:{{scope.row.name}}</p>
+			<p>年龄: {{scope.row.age}}</p>
+			<p>性别: {{scope.row.sex}}</p>
+		</template>
+	</tb-list>
+</div>
+
+<script type="text/javascript">
+	var app = new Vue({
+		el: '#app',
+		data: {
+			data: [{
+				name: 'kongzhi1',
+				age: '29',
+				sex: 'man'
+			}]
+		},
+		methods: {
+			tobeknow: function () {
+				console.log("It is the parent's method");
+			}
+		},
+		components: {
+			// 单个slot
+			children1: {
+				template: "<button><slot></slot>单个插槽</button>"
+			},
+			// 具名slot
+			children2: {
+				template: "<button><slot name='first'></slot>具名插槽，<slot name='second'></slot></button>"
+			},
+			// 作用域slot
+			'tb-list': {
+				template:
+					`<ul>
+						<li v-for="(item, index) in data">
+							<slot :row="item" :$index="index"></slot>
+						</li>
+					</ul>`,
+				// 获取值
+				props: ['data']
+			}
+		}
+	});
+
+	var arr = [1, 2, 3, 4, 5];
+
+	// 命令式渲染：关心每步，关心流程，用命令去实现
+	var newArr = [];
+	for(var i = 0, len = arr.length; i < len; i++) {
+		newArr.push(arr[i] * 2);
+	}
+	console.log(newArr);
+
+	// 声明式渲染：不关心中间流程，只需要关心结果和实现条件
+	var arr1 = arr.map(function(item) {
+		return item*2;
+	});
+	console.log(arr1);
+</script>
+</body>
+</html>

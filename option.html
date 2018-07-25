@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue入门之Helloworld</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		{{message}}
+		<div>价格： {{newPrice}}</div>
+		<div>数字： {{count}}</div>
+		<div><button @click="add(2)">add</button></div>
+		<div><input v-model="question"></div>
+		<div>过滤： {{filtera | filterA}}</div>
+	</div>
+
+<script type="text/javascript">
+// 额外临时加入时，用于显示日志
+var addLog={
+	updated:function(){
+		console.log("数据放生变化,变化成"+this.count+".");
+	}
+}
+
+// 扩展
+var extendObj ={
+	created: function(){
+		console.log("我是被扩展出来的");
+	}
+}
+
+// 实例化vue
+var app = new Vue({
+	// 挂载实例
+	el:'#app',
+	// 页面数据初始化，字符，对象、数组
+	data:{
+		message: 'hello Vue!',
+		price: 100,
+		count: 100,
+		question: '',
+		filtera: 'abc'
+	},
+	// 计算属性：主要是对原数据进行改造输出。
+	// 改造输出：包括格式化数据（价格，日期），大小写转换，排序，添加符号
+	computed: {
+		newPrice () {
+			return '￥' + this.price + '元';
+		}
+	},
+	// 方法声明：用于绑定html中的方法
+	methods:{
+		add (num) {
+			this.count += num;
+		}
+	},
+	// data属性监听器, 作用v-model
+	watch: {
+		question(val, oldVal) {
+			console.log('new: %s, old: %s', val, oldVal);
+		}
+	},
+	// 过滤器，通常格式化字符，使用传值
+	filters: {
+		filterA(value) {
+			return value.toUpperCase();
+		}
+	},
+	// 混入，作用：减少代码污染、减少代码量、实现代码重用
+	mixins: [addLog],
+	// 扩展
+	extends: extendObj
+})
+</script>
+</body>
+</html>

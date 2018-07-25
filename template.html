@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue入门之组件</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<!-- template标签模板 -->
+	<template id="demo2">
+		<h2 style="color:red">我是template标签模板</h2>
+	</template>
+</div>
+
+<!-- script标签模板 -->
+<script type="x-template" id="demo3">
+	<h2 style="color:red">我是script标签模板</h2>
+</script>
+
+<script type="text/javascript">
+	// 实例化
+	new Vue({
+		el: '#app',
+		data: {
+			message: 'hello'
+		},
+		// 选项模板
+		//template:`<h1 style="color:red">我是选项模板</h1>`
+		//template:'#demo2'
+		template:'#demo3'
+	});
+</script>
+</body>
+</html>

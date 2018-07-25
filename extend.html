@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue入门之构造器扩展</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	 <author></author>
+</div>
+
+<script type="text/javascript">
+var authorExtend = Vue.extend({
+	template:"<p><a :href='authorUrl'>{{authorName}}</a></p>",
+	data:function(){
+		return{
+			authorName:'JSPang',
+			authorUrl:'http://www.jspang.com'
+		}
+	}
+	});
+	new authorExtend().$mount('author');
+</script>
+</body>
+</html>

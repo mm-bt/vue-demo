@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue入门之Helloworld</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div>数字：{{count}}</div>
+		<button onclick="reduce()">on调用</button>
+		<button onclick="reduceOnce()">once调用</button>
+		<button onclick="off()">off调用</button>
+	</div>
+
+<script type="text/javascript">
+var app = new Vue({
+	el:'#app',
+	data:{
+		count: 1
+	}
+})
+// $on 在构造器外部添加事件
+app.$on('reduce',function(){
+	console.log('执行了reduce()');
+	this.count--;
+});
+// 调用
+function reduce() {
+	// 事件调用
+	console.log('emit事件调用');
+	app.$emit('reduce');
+}
+
+// $once执行一次的事件
+app.$once('reduceOnce',function(){
+	console.log('只执行一次的方法');
+	this.count--;
+});
+// 调用
+function reduceOnce() {
+	app.$emit('reduceOnce');
+}
+
+// 关闭事件
+function off(){
+	console.log('关闭事件');
+	app.$off('reduce');
+}
+</script>
+</body>
+</html>
